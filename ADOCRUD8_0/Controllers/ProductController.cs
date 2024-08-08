@@ -120,11 +120,19 @@ namespace ADOCRUD8_0.Controllers
                         cmd.Parameters.AddWithValue("@PModel", obj.ProdtModel);
 
                         con.Open();
-                        await cmd.ExecuteNonQueryAsync();
+                        int rowsAffected = await cmd.ExecuteNonQueryAsync();
                         con.Close();
+
+                        if (rowsAffected > 0)
+                        {
+                            return Ok(new { message = "Product added successfully", product = obj });
+                        }
+                        else
+                        {
+                            return StatusCode(StatusCodes.Status500InternalServerError, "Product not added successfully");
+                        }
                     }
 
-                    return Ok(obj);
                 }
             }
             catch (Exception ex)
@@ -185,11 +193,20 @@ namespace ADOCRUD8_0.Controllers
                         cmd.Parameters.AddWithValue("@ID", obj.ProductID);
 
                         con.Open();
-                        await cmd.ExecuteNonQueryAsync();
+                        int rowsAffected = await cmd.ExecuteNonQueryAsync();
                         con.Close();
+
+                        if (rowsAffected > 0)
+                        {
+                            return Ok(new { message = "Product Edited successfully", product = obj });
+                        }
+                        else
+                        {
+                            return StatusCode(StatusCodes.Status500InternalServerError, "Product not Edited successfully");
+                        }
                     }
                 }
-                return Ok(obj);
+           
             }
             catch (Exception ex)
             {
